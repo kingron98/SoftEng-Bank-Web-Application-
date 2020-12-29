@@ -1,0 +1,36 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Transfer Funds</title>
+</head>
+<body>
+
+	<b>Transfer Funds to a 3rd party account.</b>
+	
+	<br/><br/>
+	
+	<form action="FrontController" method="post">
+    	<table>
+        	<tr>
+    			<td> Bank Account ID  : </td><td> <input name="accountId" size=15 type="text" /> </td> 
+    		</tr>
+            <tr>
+            	<td> Email  : </td><td> <input name="email" size=15 type="text" /> </td> 
+            </tr>
+            <tr>
+                <td> Confirm Password  : </td><td> <input name="password" size=15 type="password" /> </td> 
+            </tr>
+        </table>
+                
+        <input type="hidden" name="action" value="UpdateProfile" />
+        <input type="submit" value="Update" />
+    </form>
+    <br/>
+	<br/>
+	<a href="loginSuccess.jsp">Click here to return to main menu page.</a>
+
+</body>
+</html>

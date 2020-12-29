@@ -1,0 +1,56 @@
+package com.example.command;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.example.business.BankAccount;
+import com.example.business.Customer;
+import com.example.service.CustomerService;
+
+public class TransferFundsCommand implements Command {
+
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response){
+			
+		CustomerService customerService = new CustomerService();
+		String forwardToJsp = "";		
+
+		String uNameRecp = request.getParameter("accountId");
+		String amountStr = request.getParameter("amount");
+		
+		Customer c = (Customer) request.getSession().getAttribute("customer");
+		BankAccount ac = (BankAccount) request.getSession().getAttribute("bankaccount");
+		
+		String uName = c.getUserId();
+		double custBalance = ac.getBalance();
+		
+		int r[] = 0;
+
+		// Check we have username and amount
+		if (uNameRecp != null && amountStr != null){
+
+			double amount = Double.parseDouble(amountStr);
+			BankAccount recp = customerService.getBankAccount(uNameRecp);
+			// Check if amount not 0 and bank account exists
+			if (amount == 0 || recp == null || custBalance < amount) {
+				forwardToJsp = "/transferFundsFailure.jsp";
+			}
+			else {
+				r = customerService.transfer(uNameRecp, amount, uName, custBalance);
+				
+				if (r == 0) {
+					forwardToJsp = "/transferFundsFailure.jsp";
+				}
+				else {
+					forwardToJsp = "/transferFundsSuccess.jsp";
+				}
+			}
+		}
+		else {
+			forwardToJsp = "/transferFundsFailure.jsp";	
+		}
+		return forwardToJsp;
+	}
+
+}

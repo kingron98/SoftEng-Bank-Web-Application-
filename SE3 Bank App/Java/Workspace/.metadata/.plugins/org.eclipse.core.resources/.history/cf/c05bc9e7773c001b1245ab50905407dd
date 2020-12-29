@@ -1,0 +1,62 @@
+package com.example.service;
+
+import java.util.List;
+
+import com.example.business.BankAccount;
+import com.example.business.Customer;
+import com.example.dao.CustomerDao;
+import com.example.exceptions.DaoException;
+
+public class CustomerService {
+
+	CustomerDao dao = new CustomerDao();
+	
+	public Customer login(String username, String password){
+		
+		Customer c = null;
+		try {			
+			c = dao.findUserByUsernamePassword(username, password);
+		} 
+		catch (DaoException e) {
+			e.printStackTrace();
+		}
+		return c;
+		
+	}
+	
+	public List<Customer> getAllUsers(){
+	
+	List<Customer> c = null;
+	try {			
+		c = dao.getAllUsers();
+	} 
+	catch (DaoException e) {
+		e.printStackTrace();
+	}
+	return c;
+	}
+	
+	public BankAccount getBankAccount(String username){
+		
+		BankAccount ac = null;
+		try {			
+			ac = dao.getBankAccount(username);
+		} 
+		catch (DaoException e) {
+			e.printStackTrace();
+		}
+		return ac;
+		}
+	
+	public void update(String phoneNumber, String email, String uName){
+		
+		BankAccount ac = null;
+		try {			
+			ac = dao.update(phoneNumber, email, uName);
+		} 
+		catch (DaoException e) {
+			e.printStackTrace();
+		}
+		}
+	
+}

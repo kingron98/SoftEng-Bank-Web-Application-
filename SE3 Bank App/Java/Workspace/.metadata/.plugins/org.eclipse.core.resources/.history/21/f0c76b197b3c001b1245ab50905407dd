@@ -1,0 +1,183 @@
+package com.example.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.business.BankAccount;
+import com.example.business.Customer;
+import com.example.exceptions.DaoException;
+
+
+public class CustomerDao extends Dao {
+
+    public Customer findUserByUsernamePassword(String uname, String pword) throws DaoException {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Customer c = null;
+        try {
+            con = this.getConnection();
+            
+            String query = "SELECT * FROM CUSTOMER WHERE USERID = ? AND PASSWORD = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, uname);
+            ps.setString(2, pword);
+            
+            rs = ps.executeQuery();
+            if (rs.next()) {
+            	String userId = rs.getString("USERID");
+                String password = rs.getString("PASSWORD");
+                String customerName = rs.getString("CUSTOMER_NAME");
+                String phoneNumber = rs.getString("PHONE_NUMBER");
+                String linkedBankCard = rs.getString("LINKEDBANKCARD");
+                String email = rs.getString("EMAIL");
+                c = new Customer(userId, password, customerName, phoneNumber, linkedBankCard, email);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("findUserByUsernamePassword" + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("findUserByUsernamePassword" + e.getMessage());
+            }
+        }
+        return c;     // u may be null 
+    }
+
+    public List<Customer> getAllUsers() throws DaoException {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Customer> customers = new ArrayList<Customer>();
+        
+        try {
+            con = this.getConnection();
+            
+            String query = "SELECT * FROM CUSTOMER";
+            ps = con.prepareStatement(query);
+            
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String userId = rs.getString("USERID");
+                String password = rs.getString("PASSWORD");
+                String customerName = rs.getString("CUSTOMER_NAME");
+                String phoneNumber = rs.getString("PHONE_NUMBER");
+                String linkedBankCard = rs.getString("LINKEDBANKCARD");
+                String email = rs.getString("EMAIL");
+                
+                Customer customer = new Customer(userId, password, customerName, phoneNumber, linkedBankCard, email);
+                
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("getAllUsers " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("getAllUsers" + e.getMessage());
+            }
+        }
+        return customers;     // u may be null 
+    }
+    
+    public BankAccount getBankAccount(String username) throws DaoException {
+
+    	Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        BankAccount ac = null;
+        try {
+            con = this.getConnection();
+            
+            String query = "SELECT * FROM BANKACCOUNT WHERE ACCOUNT_ID = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, username);
+            
+            rs = ps.executeQuery();
+            if (rs.next()) {
+            	String accountId = rs.getString("ACCOUNT_ID");
+                double balance = rs.getDouble("BALANCE");
+                String accountHolder = rs.getString("ACCOUNT_HOLDER");
+                ac = new BankAccount(accountId, balance, accountHolder);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("getBankAccount" + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("getBankAccount" + e.getMessage());
+            }
+        }
+        return ac;     // u may be null 
+    }
+    
+    public void updateCustomerProfile(String phoneNumber, String email, String uName) throws DaoException {
+
+    	Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            con = this.getConnection();
+            
+            String query = "UPDATE CUSTOMER SET PHONE_NUMBER = ?, EMAIL = ? WHERE USERID = ?";
+            
+            ps = con.prepareStatement(query);
+            ps.setString(1, phoneNumber);
+            ps.setString(2, email);
+            ps.setString(3, uName);
+            
+            rs = ps.executeQuery();
+     
+        } catch (SQLException e) {
+            throw new DaoException("updateCustomerProfile" + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (con != null) {
+                    freeConnection(con);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("updateCustomerProfile" + e.getMessage());
+            }
+        }
+    }
+}

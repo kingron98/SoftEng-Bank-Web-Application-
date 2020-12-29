@@ -1,0 +1,5 @@
+INDEX VERSION 1.131
+C:\Users\Aaron\eclipse-workspace\SE3\Java\Workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1945696690.index
+\SE3_WebAppExample\src
+C:\Users\Aaron\eclipse-workspace\SE3 Bank App\Java\Workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1399121932.index
+\SE3_BankWebApp\src

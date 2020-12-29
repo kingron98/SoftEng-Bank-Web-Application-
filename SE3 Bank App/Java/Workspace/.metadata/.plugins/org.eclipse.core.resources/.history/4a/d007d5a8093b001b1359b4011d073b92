@@ -1,0 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+
+<body>
+	Servlet forwarded to me... loginSuccess.jsp
+	
+	<br/><br/>
+	
+	<c:set var="customer" value="${sessionScope.customer}"/>
+	<c:set var="bankaccount" value="${sessionScope.bankaccount}"/>
+	<b>Hello <c:out value="${customer.customerName}"/>, you are now logged in...</b>
+	<b>Bank Account No: <c:out value="${bankaccount.accountId}"/></b>
+	<b>What would like to do?</b>
+	
+	<br/><br/>
+	
+	<form action="FrontController" method="post">
+	     <input type="hidden" name="action" value="ListUsers" />
+         <input type="submit" value="List Users" />
+    </form>
+    <form action="FrontController" method="post">
+	     <input type="hidden" name="action" value="ViewUserProfile" />
+         <input type="submit" value="View My Profile" />
+    </form>  
+    <form action="FrontController" method="post">
+	     <input type="hidden" name="action" value="CheckBalance" />
+         <input type="submit" value="Check Balance" />
+    </form>      
+		
+</body>
+
+</html>

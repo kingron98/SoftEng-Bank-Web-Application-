@@ -1,0 +1,49 @@
+package com.example.command;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.example.business.BankAccount;
+import com.example.business.Customer;
+import com.example.service.CustomerService;
+
+public class UpdateProfileCommand implements Command {
+
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response){
+			
+		CustomerService customerService = new CustomerService();
+		String forwardToJsp = "";		
+
+		String phoneNumber = request.getParameter("phoneNumber");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+
+		//Check we have a username and password...
+		if (phoneNumber != null && email != null && password != null){
+
+			//Make call to the 'Model' using the CustomerService class to update...
+			boolean passwordCheck = customerService.confirmPassword(password);
+
+			if (passwordCheck){
+
+				HttpSession session = request.getSession();
+				String clientSessionId = session.getId();
+				session.setAttribute("loggedSessionId", clientSessionId);
+				session.setAttribute("customer", custLoggingIn);
+				session.setAttribute("bankaccount", acLoggingIn);
+
+				forwardToJsp = "/loginSuccess.jsp";				
+			}
+			else{
+				forwardToJsp = "/loginFailure.jsp";	
+			}
+		}
+		else {
+			forwardToJsp = "/loginFailure.jsp";	
+		}
+		return forwardToJsp;
+	}
+
+}

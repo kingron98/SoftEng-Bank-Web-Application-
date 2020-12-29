@@ -1,0 +1,3 @@
+#Tomcat publish data
+#Mon Dec 14 02:24:29 MYT 2020
+org.eclipse.jst.jee.server\:SE3_BankWebApp=C\:\\xampp\\tomcat\\wtpwebapps\\SE3_BankWebApp
